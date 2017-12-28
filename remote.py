@@ -10,24 +10,37 @@ PREV_KEY=None
 def on_press(key):
     global PREV_KEY
     key = str(key)
-    if key==PREV_KEY:
-        return
-    else:
-        PREV_KEY=key
+
 
     if key == "'w'":
+        if key == PREV_KEY:
+            return
+        else:
+            PREV_KEY = key
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.sendto(str(key).encode(), (UDP_IP, UDP_PORT))
         return
     if key == "'s'":
+        if key == PREV_KEY:
+            return
+        else:
+            PREV_KEY = key
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.sendto(key.encode(), (UDP_IP, UDP_PORT))
         return
     if key == "'d'":
+        if key == PREV_KEY:
+            return
+        else:
+            PREV_KEY = key
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.sendto(key.encode(), (UDP_IP, UDP_PORT))
         return
     if key == "'a'":
+        if key == PREV_KEY:
+            return
+        else:
+            PREV_KEY = key
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.sendto(key.encode(), (UDP_IP, UDP_PORT))
         return
@@ -44,25 +57,38 @@ def on_release(key):
 
     global PREV_KEY
     key = '!' + str(key)
-    if key==PREV_KEY:
-        return
-    else:
-        PREV_KEY=key
+
 
 
     if key == "!'w'":
+        if key == PREV_KEY:
+            return
+        else:
+            PREV_KEY = key
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.sendto(key.encode(), (UDP_IP, UDP_PORT))
         return
     if key == "!'s'":
+        if key == PREV_KEY:
+            return
+        else:
+            PREV_KEY = key
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.sendto(key.encode(), (UDP_IP, UDP_PORT))
         return
     if key == "!'d'":
+        if key == PREV_KEY:
+            return
+        else:
+            PREV_KEY = key
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.sendto(key.encode(), (UDP_IP, UDP_PORT))
         return
     if key == "!'a'":
+        if key == PREV_KEY:
+            return
+        else:
+            PREV_KEY = key
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.sendto(key.encode(), (UDP_IP, UDP_PORT))
         return

@@ -10,14 +10,15 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((UDP_IP, UDP_PORT))
 
 # 1 speed - duty 200 2 speed - duty 500 3 speed - duty 1000
-speed_gear = {'1': 200, '2': 500, '3': 1000}
+speed_gear = {'1': 300,'2': 1000}
 speed = 1
 
 pwm_f = PWM(Pin(0))
 pwm_b = PWM(Pin(4))
+
+pwm_f.freq(1000)
+pwm_b.freq(1000)
 pin_objs={0:pwm_f,4:pwm_b}
-pwm_f.freq(60)
-pwm_b.freq(60)
 
 
 
@@ -59,6 +60,7 @@ def stop_steering():
     l.off()
 
 while True:
+
     data, addr = sock.recvfrom(1024)
     key = data.decode()
     if key == "'w'":
@@ -82,14 +84,14 @@ while True:
     if key == "!'a'":
         stop_steering()
     if key == "Key.up":
-        if speed < 3:
+        if speed < 2:
 
             speed += 1
-            if FB:
+            if FB==0 or FB==4:
                 pin_objs[FB].duty(speed_gear[str(speed)])
 
     if key == "Key.down":
         if speed > 1:
             speed -= 1
-            if FB:
+            if FB==0 or FB==4:
                 pin_objs[FB].duty(speed_gear[str(speed)])
