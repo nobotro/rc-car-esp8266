@@ -7,35 +7,23 @@ UDP_PORT = 5006
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((UDP_IP, UDP_PORT))
 
-# 1 speed - duty 200 2 speed - duty 500 3 speed - duty 1000
-speed_gear = {'1': 200, '2': 500, '3': 1000}
-speed = 1
-
-pwm_f = machine.PWM(Pin(0))
-pwm_b = machine.PWM(Pin(4))
-pwm_f.freq(60)
-pwm_b.freq(60)
-# f = Pin(0, Pin.OUT)
-# b = Pin(4, Pin.OUT)
+f = Pin(0, Pin.OUT)
+b = Pin(4, Pin.OUT)
 r = Pin(5, Pin.OUT)
 l = Pin(3, Pin.OUT)
 
-# f.off()
-# b.off()
+f.off()
+b.off()
 r.off()
 l.off()
 
 def forward():
-    # b.off()
-    # f.on()
-    pwm_b.duty(0)
-    pwm_f.duty(speed_gear[str(speed)])
+    b.off()
+    f.on()
     
 def backword():
-    # f.off()
-    # b.on()
-    pwm_f.duty(0)
-    pwm_b.duty(speed_gear[str(speed)])
+    f.off()
+    b.on()
 
 def right():
     l.off()
@@ -46,10 +34,8 @@ def left():
     l.on()
 
 def stop_move():
-    # f.off()
-    # b.off()
-    pwm_f.duty(0)
-    pwm_b.duty(0)
+    f.off()
+    b.off()
 
 def stop_steering():
     r.off()
@@ -74,9 +60,3 @@ while True:
         stop_steering()
     if key == "!'a'":
         stop_steering()
-    if key == "Key.up":
-        if speed < 3:
-            speed += 1
-    if key == "Key.down":
-        if key > 1:
-            speed -= 1
