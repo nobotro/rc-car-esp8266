@@ -5,9 +5,16 @@ import time
 #UDP_IP = "127.0.0.1"
 UDP_IP = "192.168.72.169"
 UDP_PORT = 5006
+PREV_KEY=None
 
 def on_press(key):
+    global PREV_KEY
     key = str(key)
+    if key==PREV_KEY:
+        return
+    else:
+        PREV_KEY=key
+
     if key == "'w'":
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.sendto(str(key).encode(), (UDP_IP, UDP_PORT))
@@ -34,7 +41,15 @@ def on_press(key):
         return
 
 def on_release(key):
+
+    global PREV_KEY
     key = '!' + str(key)
+    if key==PREV_KEY:
+        return
+    else:
+        PREV_KEY=key
+
+
     if key == "!'w'":
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.sendto(key.encode(), (UDP_IP, UDP_PORT))
