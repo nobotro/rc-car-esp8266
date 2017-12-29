@@ -10,14 +10,14 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((UDP_IP, UDP_PORT))
 
 # 1 speed - duty 200 2 speed - duty 500 3 speed - duty 1000
-speed_gear = {'1': 300,'2': 1000}
+speed_gear = {'1': 500,'2': 1000}
 speed = 1
 
 pwm_f = PWM(Pin(0))
 pwm_b = PWM(Pin(4))
 
-pwm_f.freq(1000)
-pwm_b.freq(1000)
+pwm_f.freq(30)
+pwm_b.freq(30)
 pin_objs={0:pwm_f,4:pwm_b}
 
 
