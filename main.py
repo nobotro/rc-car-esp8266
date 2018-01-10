@@ -1,7 +1,11 @@
-from machine import Pin , PWM
+from machine import Pin , PWM,I2C
+
+import vl53l0x
 import machine
 import socket
 import utime
+
+
 
 UDP_IP = "0.0.0.0"
 UDP_PORT = 5006
@@ -17,7 +21,7 @@ speed_gear = {'1': 500,'2': 1000}
 speed = 1
 
 pwm_f = PWM(Pin(0))
-pwm_b = PWM(Pin(4))
+pwm_b = PWM(Pin(15))
 
 pwm_f.freq(30)
 pwm_b.freq(30)
@@ -25,10 +29,9 @@ pin_objs={0:pwm_f,4:pwm_b}
 
 
 
-r = Pin(5, Pin.OUT)
+r = Pin(2, Pin.OUT)
 l = Pin(3, Pin.OUT)
-trig = Pin(1, Pin.OUT)
-echo = Pin(15, Pin.IN)
+
 
 
 
@@ -43,7 +46,7 @@ def forward():
 
     pwm_b.duty(0)
     pwm_f.duty(speed_gear[str(speed)])
-    
+
 def backword():
 
     pwm_f.duty(0)
@@ -74,9 +77,11 @@ def stop_steering():
 
 def driver():
     global speed
-    while True:
 
+    while True:
         safety_manager()
+
+
         data=None
         try:
             data, addr = sock.recvfrom(1024)
@@ -123,35 +128,22 @@ def driver():
 
 def safety_manager():
 
-        global FB
+        # global FB
+
+        i2c = I2C(-1, Pin(5), Pin(4))
+        sensor = vl53l0x.VL53L0X(i2c)
+        distance = sensor.read()
+        print(str(distance))
 
 
-
-        trig.value(0)  # Stabilize the sensor
-        utime.sleep_us(5)
-        trig.value(1)
-        # Send a 10us pulse.
-        utime.sleep_us(10)
-        trig.value(0)
-        echo = Pin(15, Pin.IN)
-        try:
-
-            pulse_time = machine.time_pulse_us(echo, 1,500*2*30)
-            cm = pulse_time / 58.2
-            print(cm)
-            if cm >5 and cm <15 :
-                print('warning')
-
-                FB = 4
-                backword()
-                utime.sleep(2)
-                stop_move()
-
-        except :
-             pass
+        if distance >50 and distance <200 :
 
 
+            FB = 4
+            backword()
+            utime.sleep(2)
+            stop_move()
 
-driver()
+
 
 
