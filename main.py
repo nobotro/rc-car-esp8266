@@ -25,7 +25,7 @@ pwm_b = PWM(Pin(15))
 
 pwm_f.freq(30)
 pwm_b.freq(30)
-pin_objs={0:pwm_f,4:pwm_b}
+pin_objs={0:pwm_f,15:pwm_b}
 
 
 
@@ -77,7 +77,7 @@ def stop_steering():
 
 def driver():
     global speed
-
+    global FB
     while True:
         safety_manager()
 
@@ -97,7 +97,7 @@ def driver():
             forward()
         if key == "'s'":
 
-            FB = 4
+            FB = 15
             backword()
         if key == "'d'":
             right()
@@ -115,13 +115,13 @@ def driver():
             if speed < 2:
 
                 speed += 1
-                if FB==0 or FB==4:
+                if FB==0 or FB==15:
                     pin_objs[FB].duty(speed_gear[str(speed)])
 
         if key == "Key.down":
             if speed > 1:
                 speed -= 1
-                if FB==0 or FB==4:
+                if FB==0 or FB==15:
                     pin_objs[FB].duty(speed_gear[str(speed)])
 
 
@@ -139,7 +139,7 @@ def safety_manager():
         if distance >50 and distance <200 :
 
 
-            FB = 4
+            FB = 15
             backword()
             utime.sleep(2)
             stop_move()
