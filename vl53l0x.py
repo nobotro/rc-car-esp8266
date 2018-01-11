@@ -3,7 +3,7 @@ import ustruct
 import utime
 
 
-_IO_TIMEOUT = 1000
+_IO_TIMEOUT = 30
 _SYSRANGE_START = const(0x00)
 _EXTSUP_HV = const(0x89)
 _MSRC_CONFIG = const(0x60)
@@ -27,7 +27,7 @@ class TimeoutError(RuntimeError):
 
 
 class VL53L0X:
-    def __init__(self, i2c, address=0x41):
+    def __init__(self, i2c, address=0x29):
         self.i2c = i2c
         self.address = address
         self.init()

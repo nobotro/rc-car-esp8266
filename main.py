@@ -1,3 +1,10 @@
+# tetri-win wasvlaw
+#lurji-backward
+#narinjisferi-marjvena
+#iasamnisferi-marcxena
+#tetri scl
+#melnisferi sda
+
 from machine import Pin , PWM,I2C
 
 import vl53l0x
@@ -29,7 +36,7 @@ pin_objs={0:pwm_f,15:pwm_b}
 
 
 
-r = Pin(2, Pin.OUT)
+r = Pin(1, Pin.OUT)
 l = Pin(3, Pin.OUT)
 
 
@@ -40,6 +47,10 @@ l = Pin(3, Pin.OUT)
 
 r.off()
 l.off()
+
+i2c =None
+sensor =None
+
 
 def forward():
 
@@ -76,8 +87,16 @@ def stop_steering():
 
 
 def driver():
+
     global speed
     global FB
+    global i2c
+    global  sensor
+
+    i2c = I2C(-1, Pin(5), Pin(4))
+    sensor = vl53l0x.VL53L0X(i2c)
+    sensor.start()
+
     while True:
         safety_manager()
 
@@ -127,23 +146,22 @@ def driver():
 
 
 def safety_manager():
-
-        # global FB
-
-        i2c = I2C(-1, Pin(5), Pin(4))
-        sensor = vl53l0x.VL53L0X(i2c)
-        distance = sensor.read()
-        print(str(distance))
+    global FB
+    global sensor
 
 
-        if distance >50 and distance <200 :
-
-
-            FB = 15
-            backword()
-            utime.sleep(2)
-            stop_move()
+    distance = sensor.read()
 
 
 
+    if distance >50 and distance <200 :
+
+
+
+        FB = 15
+        backword()
+        utime.sleep(2)
+        stop_move()
+
+driver()
 
