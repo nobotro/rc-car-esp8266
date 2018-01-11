@@ -98,8 +98,10 @@ def driver():
     sensor.start()
 
     while True:
-        safety_manager()
 
+        try:
+             safety_manager()
+        except:pass
 
         data=None
         try:
@@ -148,20 +150,26 @@ def driver():
 def safety_manager():
     global FB
     global sensor
-
+    global sock
 
     distance = sensor.read()
 
 
 
-    if distance >50 and distance <200 :
+    if distance >50 and distance <400 :
 
 
 
+
+        stop_move()
         FB = 15
         backword()
-        utime.sleep(2)
-        stop_move()
+        utime.sleep(1)
+
+        sock.close()
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.bind((UDP_IP, UDP_PORT))
+        sock.setblocking(0)
 
 driver()
 
