@@ -10,8 +10,6 @@ PREV_KEY=None
 def on_press(key):
     global PREV_KEY
     key = str(key)
-
-
     if key == "'w'":
         if key == PREV_KEY:
             return
@@ -44,6 +42,22 @@ def on_press(key):
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.sendto(key.encode(), (UDP_IP, UDP_PORT))
         return
+    if key == "'t'":
+        if key == PREV_KEY:
+            return
+        else:
+            PREV_KEY = key
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.sendto(key.encode(), (UDP_IP, UDP_PORT))
+        return
+    if key == "'p'":
+        if key == PREV_KEY:
+            return
+        else:
+            PREV_KEY = key
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.sendto(key.encode(), (UDP_IP, UDP_PORT))
+        return
     if key == "Key.up":
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.sendto(key.encode(), (UDP_IP, UDP_PORT))
@@ -54,12 +68,8 @@ def on_press(key):
         return
 
 def on_release(key):
-
     global PREV_KEY
     key = '!' + str(key)
-
-
-
     if key == "!'w'":
         if key == PREV_KEY:
             return
@@ -85,6 +95,14 @@ def on_release(key):
         sock.sendto(key.encode(), (UDP_IP, UDP_PORT))
         return
     if key == "!'a'":
+        if key == PREV_KEY:
+            return
+        else:
+            PREV_KEY = key
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.sendto(key.encode(), (UDP_IP, UDP_PORT))
+        return
+    if key == "!'t'":
         if key == PREV_KEY:
             return
         else:
