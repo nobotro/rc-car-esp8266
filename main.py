@@ -132,13 +132,13 @@ def driver():
         if key == "Key.up":
             if speed < 2:
                 speed += 1
-                if FB:
+                if FB==0 or FB==15:
                     pin_objs[FB].duty(speed_gear[str(speed)])
 
         if key == "Key.down":
             if speed > 1:
                 speed -= 1
-                if FB:
+                if FB == 0 or FB == 15:
                     pin_objs[FB].duty(speed_gear[str(speed)])
 
 driver()
